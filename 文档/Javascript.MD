@@ -32,7 +32,7 @@
 
 ## javascript组成
 
-1. ECMAscript
+1. ECMAScript
 2. DOM
 3. BOM
 
@@ -55,7 +55,7 @@
 2. async
     - js加载完后立即执行，只能加载外部脚本
 3. 创建script标签实现异步加载—按需加载
-    - 结合domo的392行代码查看
+    - 结合demo的392行代码查看
 
 ##### js数据类型
 
@@ -71,8 +71,8 @@
     ```
 
     - Boolean
-    - Undefind
-    - Null
+    - undefined
+    - null
 
 2. ###### 引用值（堆数据heap）
     - Array
@@ -96,14 +96,18 @@
 `函数声明整体提升,变量和声明提升,赋值不提升`
 `未声明的变量会直接成为全局变量挂载在window对象上，亦相当于Go对象`
 
-##### 函数执行过程
+##### JS文件执行过程
 
-1. 全局先为变量声明并赋值为`undefined`，若有函数则将函数同时声明（此时形成**全局对象[global Object]**）
-2. 开始执行代码
-3. 遇到调用函数生成**AO对象[Activation Object]**
-4. 在AO对象中先声明行参和变量并赋值为`undefined`
-5. 再将调用函数时的实参赋值给行参
-6. 最后在函数中找函数声明，并赋值为函数体`(function test() {})`—此为函数体
+1. 创建GO对象（**全局对象[global Object]**）
+2. 声明变量并赋值为undefined
+3. 声明函数并赋值为函数体
+4. 逐条执行代码
+5. 碰到函数调用，开始执行以下步骤
+6. 创建AO对象（**AO对象[Activation Object]**）
+7. 声明行参和声明变量，并赋值为undefined
+8. 行参赋值为实参
+9. 声明函数，并赋值为函数体（没有等号的）
+10. 逐条执行代码
 
 ##### 作用域链
 
@@ -119,7 +123,8 @@
 
 ##### 闭包
 
-`定义：当内部函数被保存至外部时，将会生成闭包。`
+`定义：有权访问另一个函数作用域中变量的函数`
+`产生：当内部函数被保存至外部时，将会生成闭包。`
 `危害：闭包会导致原有作用域链不被释放，造成内存泄漏`
 
 1. `原有作用域链不被释放`：假设有`a()`和`b()`两个函数，`b()`函数是`a()`函数的子函数，当在`a()`函数中`return b`时，再在`a`外部全局调用`b()`时，因为在`a()`函数中未实现对`b()`的调用，但是在调用`a()`时已经定义了`b()`的作用域链，即定义`b()`的作用域链时就链接着`a()`的作用域，当`a()`执行销毁阶段时断开了自身创建的作用域，但是在`b()`函数上却会一直链接着`a()`执行时生成的作用域
@@ -142,7 +147,7 @@ a();
 ###### 闭包的作用
 
 1. 实现公有变量
-    - 函数累加器，不依赖外部变量切能反复执行
+    - 函数累加器，不依赖外部变量且能反复执行
 2. 可以做缓存(存储结构)
 3. 实现封装，属性私有化
 4. 模块化开发，防止污染全局变量
@@ -264,7 +269,7 @@ Object.create(Array);
 
 var obj = {
     name : "obj",
-    objage : 1,
+    age : 1,
     handle:function(){
         console.log("姓名:" + this.name + "|年龄:" + this.age)
     }
@@ -310,7 +315,7 @@ obj.hasOwnProperty("某个属性");
 //in用来判断这个属性是否存在与自身或原型链上，返回布尔值
 //属性记得加引号
 'name' in obj;
-//Instanceof判断对象A的原型链上有没有对象B的原型，返回布尔值
+//instanceof判断对象A的原型链上有没有对象B的原型，返回布尔值
 //官方文档：A对象是不是由B构造函数构造出来的
 console.log(A instanceof B);
 ```
@@ -319,7 +324,7 @@ console.log(A instanceof B);
 //拓展：识别一个变量a是数组还是对象
 1.a.constructor;
 2.a instanceof Object;  &  a instanceof Array;
-3.Object.prototype.tostring.call(a);
+3.Object.prototype.toString.call(a);
 ```
 
 ##### 类数组
@@ -471,7 +476,7 @@ myDate.getMouth();//返回月份（0～11）
 myDate.getHours();//返回小时（0～23）
 myDate.getMinutes();//返回分钟（0～59）
 myDate.getSeconds();//返回秒钟（0～59）
-myDate.getMilliSeconds();//返回毫秒（0～999）
+myDate.getMilliseconds();//返回毫秒（0～999）
 myDate.getTime();//返回1970.01.01至今的毫秒数
 ```
 
@@ -529,29 +534,29 @@ div.detachEvent(‘on’+’事件类型’，处理函数);
 ###### 事件类型
 
 * 鼠标事件
-click(点击)、
-mousedown(左键按下)、
-mousemove(鼠标移动)、
-mouseup(左键抬起)、
-contextmenu(右键事件，用于取消右键显示菜单功能)、
-mouseover(旧：鼠标移入)、
-mouseout(旧：鼠标移出)、
-mouseenter(新：鼠标移入)、
-mouseleave(新：鼠标移出)
-`只能用mousedown和mouseup来区分左右键及滚轮（用返回鼠标事件里的button属性区分，0为左键、1为滚轮、2为右键）`
+`click`(点击)、
+`mousedown`(左键按下)、
+`mousemove`(鼠标移动)、
+`mouseup`(左键抬起)、
+`contextmenu`(右键事件，用于取消右键显示菜单功能)、
+`mouseover`(旧：鼠标移入)、
+`mouseout`(旧：鼠标移出)、
+`mouseenter`(新：鼠标移入)、
+`mouseleave`(新：鼠标移出)
+>只能用mousedown和mouseup来区分左右键及滚轮（用返回鼠标事件里的button属性区分，0为左键、1为滚轮、2为右键）
 * 键盘事件
-keydown(键盘按下)、
-keypress(键盘按下)、
-keyup(键盘抬起)
-`keydown和keypress的区别：down相应所有键，press只相应有ASCII码的键通过事件对象的charCode判断`
+`keydown`(键盘按下)、
+`keypress`(键盘按下)、
+`keyup`(键盘抬起)
+>keydown和keypress的区别：down相应所有键，press只相应有ASCII码的键通过事件对象的charCode判断
 * 文本操作事件
-input(输入—变化了就触发)、
-change(改变-聚焦和失焦有改变才触发)、
-focus(聚焦)、
-blur(失去焦点)
+`input`(输入—变化了就触发)、
+`change`(改变-聚焦和失焦有改变才触发)、
+`focus`(聚焦)、
+`blur`(失去焦点)
 * 窗体操作类事件（window上的事件）
-scroll(滚动条滚动)、
-load(页面加载完毕)
+`scroll`(滚动条滚动)、
+`load`(页面加载完毕)
 
 ###### 事件捕获&事件冒泡
 *`先捕获后冒泡`
@@ -591,15 +596,15 @@ e.returnValue = false;
  var 参数 = event || window.event;
 //获取事件源对象的方法：
 e.target;//兼容火狐
-e.srcElement://兼容IE
+e.srcElement;//兼容IE
 //结合demo的345行查看
 var ul = document.getElementsByTagName("ul")[0];
     ul.onclick = function (e){
         //获取事件对象，window.event用于兼容IE
         var e = e || window.event;
         //获取事件源对象，兼容火狐和IE
-        var taget = e.target || e.srcElement;
-        console.log(taget.innerText);
+        var target = e.target || e.srcElement;
+        console.log(target.innerText);
         }
 ```
 
@@ -647,7 +652,7 @@ document.compatMode;
 
 ```js
 //基本不用
-.getBoundingCientRect();
+.getBoundingClientRect();
 //可用以下替代
 .offsetWidth;
 .offsetHeight;
@@ -708,7 +713,7 @@ function debounce(callback, delay){
         fn = setTimeout(callback, delay);
     }
 }
-window.onscroll = decounce(function(){
+window.onscroll = debounce(function(){
     console.log("调用了1次");
 }, 300);
 ```
@@ -718,7 +723,7 @@ window.onscroll = decounce(function(){
 `不执行下一个`
 ```js
 //拉动滚动条
-funciton throttle(callback, duration){
+function throttle(callback, duration){
     var lastTime = new Date().getTime();
     return function(){
         var nowTime = new Date().getTime();
@@ -744,7 +749,7 @@ fn(1,2,3);
 fn(1,3,4);
 fn(1,5,8);
 //柯里化
-function fn(1){
+function fn(a){
     return function(b){
         return function(c){
             return a*b*c;
