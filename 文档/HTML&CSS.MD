@@ -318,4 +318,29 @@ div{
 
 }
 ```
+#### 水平垂直居中
+```css
+/* 父元素使用 */
+.in{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* 垂直排列 */
+}
+```
+```html
+<!-- 或父子一块使用 -->
+<div style="display:flex; align-items: center">
+  <van-checkbox style="margin: auto">
+  </van-checkbox>
+</div>
+```
+#### 文字过长显示省略号
+```css
+.style{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+```
 

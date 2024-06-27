@@ -762,3 +762,51 @@ ft(3,4);
 ft(5,8);
 ```
 
+## 正则
+`判断是否为汉字`
+```js
+//汉字为true，否为false
+var pattern = new RegExp("[\u4E00-\u9FA5]+")
+pattern.test(item.vital_signs_values)
+```
+`判断是否为纯数字`
+```js
+var pattern = new RegExp(/^\d+$/)
+pattern.test(item.vital_signs_values)
+```
+## 回到顶部
+```js
+//是给滚动的父元素设置，也就是设置了overflow：auto的元素
+document.getElementsByClassName('equi_container')[0].scrollTop = 0
+```
+## 一维转二维数组
+`对象数组根据同一code进行转换`
+```js
+var arrayTwo = Object.values(arrayFirst.reduce((res, item) => {
+  res[item.code] ? res[item.code].push(item) : res[item.code] = [item];
+  return res;
+}, {}));
+console.log(arrayTwo)
+```
+## 二维转一维数组
+```js
+var array = Array.prototype.concat.apply([], arr)
+console.log(array)
+```
+## 实现sleep
+```js
+  const sleep = time => new Promise(resolve => setTimeout(resolve,time))
+  //调用
+  //方法1: async await
+  async test(){
+    console.log(1)
+    await sleep(2000)
+    console.log(2) //2s后打印
+  }
+  //方法2: .then()
+  console.log(1)
+  sleep(2000).then(_ => {
+    console.log(2) //2s后打印
+  })
+```
+

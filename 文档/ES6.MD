@@ -336,3 +336,63 @@ var fn = ()=>{}
 1. 箭头函数没有独立的 this、arguments 和 super 绑定，并且不可被用作方法。
 2. 箭头函数不能用作构造函数。使用 new 调用它们会引发 TypeError。它们也无法访问 new.target 关键字。
 3. 箭头函数不能在其主体中使用 yield，也不能作为生成器函数创建
+
+
+## 声明变量的六种方法
+ES5 只有两种声明变量的方法：var命令和function命令。ES6 除了添加let和const命令，另外两种声明变量的方法：import命令和class命令。所以，ES6 一共有 6 种声明变量的方法。
+
+## 对象属性及方法
+### 获取对象的所有key，并以数组形式返回（包含不可枚举的属性）
+```js
+let obj = {
+  a: 1,
+  b: 2
+}
+let arr = Reflect.ownKeys(object)
+// arr:['a','b']
+```
+### 获取对象的所有key，并以数组形式返回（不包含不可枚举对象）
+```js
+    var obj = {}
+    Object.defineProperty(obj, 'method1', {
+        value: function () {
+            alert("Non enumerable property");
+        },
+        enumerable: false //是否可枚举
+    })
+ 
+console.log(Object.keys(obj))
+// []
+console.log(Reflect.ownKeys(obj))
+// ["method1"]
+```
+### 冻结对象（或数组），使对象内属性不可修改与删除（对象属性除外：方法，对象）
+```js
+let obj = {
+  a: 1,
+  b: 2
+}
+Object.freeze(obj)
+obj.a = 11 // 严格模式下报错
+delete obj.b // 严格模式下报错
+delete obj.c // 返回true，因为属性‘c’从未被添加过
+obj = {} //对象指针重新指向，不会有问题
+
+//若obj对象中有对象
+let obj = {
+  a: {
+    aa: 1
+  }
+}
+Object.freeze(obj) //此时为浅冻结
+obj.a.aa = 2 //可以成功修改
+//此时如果需要将‘aa’对象冻结则需要使用递归的方式
+var constantize = (obj) => {
+  Object.freeze(obj);
+  Object.keys(obj).forEach( (key, i) => {
+    if ( typeof obj[key] === 'object' ) {
+      constantize( obj[key] );
+    }
+  });
+};
+```
